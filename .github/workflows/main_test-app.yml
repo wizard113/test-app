@@ -30,7 +30,7 @@ jobs:
 
       - name: Show standalone
         run: |
-          tree .next/standalone
+          tree .next/standalone -L 3
 
       # server.js가 있는 standalone 폴더 찾기
       - name: Find standalone app
