@@ -31,7 +31,11 @@ jobs:
       # server.js가 있는 standalone 폴더 찾기
       - name: Find standalone app
         run: |
-          APP_DIR=$(dirname "$(find .next/standalone -name server.js | head -1)")
+          APP_DIR=$(dirname "$(find .next/standalone \
+            -name package.json \
+            ! -path "*/node_modules/*" \
+            | head -1)")
+
           echo "APP_DIR=$APP_DIR"
           echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
 
