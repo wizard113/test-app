@@ -35,7 +35,7 @@ jobs:
       # server.js가 있는 standalone 폴더 찾기
       - name: Find standalone app
         run: |
-          APP_DIR=$(dirname "$(find .next/standalone \
+          APP_DIR=$(dirname "$(find .next \
             -name package.json \
             ! -path "*/node_modules/*" \
             | head -1)")
