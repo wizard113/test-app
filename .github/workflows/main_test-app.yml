@@ -45,13 +45,16 @@ jobs:
         run: |
           mkdir deploy
 
+          echo "standalone 내용 복사"
           # standalone 내용 복사
           cp -a "$APP_DIR"/. deploy/
 
+          echo "static 복사"
           # static 복사
           mkdir -p deploy/.next
           cp -a .next/static deploy/.next/
 
+          echo "public 복사"
           # public 복사
           if [ -d public ]; then
             cp -a public deploy/
