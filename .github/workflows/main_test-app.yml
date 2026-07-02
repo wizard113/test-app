@@ -40,7 +40,7 @@ jobs:
             ! -path "*/node_modules/*" \
             | head -1)")
 
-          echo "APP_DIR=$APP_DIR"
+          echo "APP_DIR=.next/standalone"
           echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
 
       # App Service에 올릴 폴더 생성
