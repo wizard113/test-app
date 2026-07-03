@@ -95,3 +95,13 @@ jobs:
           slot-name: Production
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8238FDE204954D1B9EBB0A1EFF2452DB }}
           package: deploy
+      - name: Inspect standalone
+        run: |
+          echo "=== standalone ==="
+          ls -l .next/standalone
+          echo "=== standalone/node_modules ==="
+          ls -l .next/standalone/node_modules
+          echo "=== deploy ==="
+          ls -l deploy
+          echo "=== deploy/node_modules ==="
+          ls -l deploy/node_modules
