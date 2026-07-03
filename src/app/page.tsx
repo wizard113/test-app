@@ -14,7 +14,7 @@ export default function Home() {
           priority
         />
         <div className={styles.intro}>
-          <h1>Next github action 배포1</h1>
+          <h1>Next github action 배포22</h1>
           <p>
             Looking for a starting point or more instructions? Head over to{' '}
             <a
