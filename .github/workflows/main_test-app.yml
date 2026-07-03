@@ -46,26 +46,25 @@ jobs:
           echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
 
       # App Service에 올릴 폴더 생성
+      # App Service에 올릴 폴더 생성
       - name: Prepare deploy package
         run: |
           mkdir deploy
 
-          echo "standalone 내용 복사"
-          # standalone 내용 복사
-          cp -a "$APP_DIR"/. deploy/
+          echo "standalone 내용 복사 (심볼릭 링크 해제하여 실제 파일로 복사)"
+          # -L 옵션을 주어 심볼릭 링크가 아닌 실제 디렉토리/파일로 복사합니다.
+          cp -rL "$APP_DIR"/. deploy/
 
           echo "static 복사"
-          # static 복사
           mkdir -p deploy/.next
           cp -a .next/static deploy/.next/
 
           echo "public 복사"
-          # public 복사
           if [ -d public ]; then
             cp -a public deploy/
           fi
-          ls deploy/.next -la
 
+          ls -la deploy
       # 확인용 (처음 한두 번만 사용)
       - name: Show deploy structure
         run: |
