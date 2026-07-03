@@ -28,21 +28,18 @@ jobs:
       - name: Build
         run: npm run build
 
+  check:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Show working directory
         run: |
           echo "Current directory:"
           pwd
 
-          echo ""
-          echo "Directory contents:"
-          ls -la
-
-          echo ""
-          echo "Tree:"
-          tree -L 2 .
-            - name: Show standalone
-              run: |
-                tree .next/standalone -L 3
+            echo ""
+            echo "Directory contents:"
+            ls -la
 
       # server.js가 있는 standalone 폴더 찾기
       - name: Find standalone app
