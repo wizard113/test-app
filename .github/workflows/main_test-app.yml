@@ -28,70 +28,75 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Show working directory
+        run: |
+          echo "Current directory:"
+          pwd
+
+          echo ""
+          echo "Directory contents:"
+          ls .next/standalone/ -la
+
       # server.js가 있는 standalone 폴더 찾기
       - name: Find standalone app
         run: |
           APP_DIR=$(find . -type d -path "*/.next/standalone" | head -n 1)
+
           echo "APP_DIR=$APP_DIR"
           echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
 
-      # App Service에 올릴 배포 폴더 생성 및 물리 파일 복사
+      # App Service에 올릴 폴더 생성
+      # App Service에 올릴 폴더 생성
       - name: Prepare deploy package
         run: |
           mkdir deploy
 
-          echo "1. standalone 코드 복사"
-          cp -a .next/standalone/. deploy/
+          echo "standalone 내용 복사 (심볼릭 링크 해제하여 실제 파일로 복사)"
+          # -L 옵션을 주어 심볼릭 링크가 아닌 실제 디렉토리/파일로 복사합니다.
+          cp -rL "$APP_DIR"/. deploy/
 
-          echo "2. 깨지기 쉬운 standalone/node_modules 심볼릭 링크 삭제"
-          rm -rf deploy/node_modules
-
-          echo "3. 프로젝트 루트의 진짜 node_modules를 프로덕션용으로 정리 후 물리 파일 복사"
-          npm prune --production
-          cp -r node_modules deploy/
-
-          echo "4. static 및 public 폴더 복사"
+          echo "static 복사"
           mkdir -p deploy/.next
           cp -a .next/static deploy/.next/
 
+          echo "public 복사"
           if [ -d public ]; then
             cp -a public deploy/
           fi
 
-          echo "===== 배포용 폴더 구조 최종 확인 ====="
           ls -la deploy
-          ls -la deploy/node_modules | head -10
 
-      # [핵심] 배포 폴더를 zip 파일로 압축 (Azure의 불필요한 개입 차단)
-      - name: Zip artifact for deployment
-        run: |
-          cd deploy
-          zip -r ../release.zip .
-          cd ..
-
-      # 압축된 release.zip 파일을 아티팩트로 업로드
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: release.zip
+          path: deploy
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-      # 압축 파일 아티팩트 다운로드
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: node-app
+          path: deploy
 
-      # Azure Web App에 Zip 패키지 형태로 안전하게 배포
+      - name: Inspect downloaded artifact
+        run: |
+          pwd
+          echo "===== deploy ====="
+          ls -la deploy
+          echo "===== deploy/node_modules ====="
+          ls -ld deploy/node_modules
+          ls -l deploy/node_modules | head -2
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
+        env:
+          SCM_DO_BUILD_DURING_DEPLOYMENT: 'false'
         with:
           app-name: test-app
           slot-name: Production
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8238FDE204954D1B9EBB0A1EFF2452DB }}
-          package: release.zip
+          package: .
