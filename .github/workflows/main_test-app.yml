@@ -28,12 +28,21 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Show standalone
+      - name: Show working directory
         run: |
-          tree  ./ -L 2
-      - name: Show standalone
-        run: |
-          tree .next/standalone -L 3
+          echo "Current directory:"
+          pwd
+
+          echo ""
+          echo "Directory contents:"
+          ls -la
+
+          echo ""
+          echo "Tree:"
+          tree -L 2 .
+            - name: Show standalone
+              run: |
+                tree .next/standalone -L 3
 
       # server.js가 있는 standalone 폴더 찾기
       - name: Find standalone app
