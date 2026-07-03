@@ -94,4 +94,4 @@ jobs:
           app-name: test-app
           slot-name: Production
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8238FDE204954D1B9EBB0A1EFF2452DB }}
-          package: .
+          package: deploy
