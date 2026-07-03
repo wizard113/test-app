@@ -51,20 +51,31 @@ jobs:
         run: |
           mkdir deploy
 
-          echo "standalone 내용 복사 (심볼릭 링크 해제하여 실제 파일로 복사)"
-          # -L 옵션을 주어 심볼릭 링크가 아닌 실제 디렉토리/파일로 복사합니다.
-          cp -rL "$APP_DIR"/. deploy/
+          echo "1. standalone 코드 복사"
+          # 소스코드를 먼저 복사합니다.
+          cp -a .next/standalone/. deploy/
 
-          echo "static 복사"
+          echo "2. 깨지기 쉬운 standalone/node_modules 삭제"
+          # Next.js가 만든 문제의 심볼릭 링크 node_modules를 강제로 지웁니다.
+          rm -rf deploy/node_modules
+
+          echo "3. 프로젝트 루트의 '진짜' node_modules를 프로덕션용으로만 재설치하여 복사"
+          # 빌드 서버 루트에서 프로덕션 의존성만 골라 deploy 폴더에 물리적 파일로 설치합니다.
+          # (또는 안전하게 cp -r node_modules deploy/ 로 통째 복사해도 됩니다.)
+          npm prune --production
+          cp -r node_modules deploy/
+
+          echo "4. static 및 public 복사"
           mkdir -p deploy/.next
           cp -a .next/static deploy/.next/
 
-          echo "public 복사"
           if [ -d public ]; then
             cp -a public deploy/
           fi
 
+          echo "===== 최종 배포 폴더 구조 확인 ====="
           ls -la deploy
+          ls -la deploy/node_modules | head -10
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
