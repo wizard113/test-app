@@ -35,7 +35,7 @@ jobs:
 
           echo ""
           echo "Directory contents:"
-          ls .next/standalone/ -la
+          ls .next/standalone/node_modules -la
 
       # server.js가 있는 standalone 폴더 찾기
       - name: Find standalone app
