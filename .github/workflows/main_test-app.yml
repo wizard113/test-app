@@ -104,15 +104,10 @@ jobs:
       - name: Inspect downloaded artifact
         run: |
           pwd
-
           echo "===== deploy ====="
-
           ls -la deploy
-
           echo "===== deploy/node_modules ====="
-
           ls -ld deploy/node_modules
-
           ls -l deploy/node_modules | head -2
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
