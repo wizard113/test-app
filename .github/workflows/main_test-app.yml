@@ -30,7 +30,7 @@ jobs:
 
       - name: Show standalone
         run: |
-          tree  -L 2
+          tree  ./ -L 2
       - name: Show standalone
         run: |
           tree .next/standalone -L 3
