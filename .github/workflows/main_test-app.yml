@@ -37,9 +37,9 @@ jobs:
           echo "Current directory:"
           pwd
 
-            echo ""
-            echo "Directory contents:"
-            ls .next/standalone -la
+          echo ""
+          echo "Directory contents:"
+          ls ./.next/standalone -la
 
       # server.js가 있는 standalone 폴더 찾기
       - name: Find standalone app
