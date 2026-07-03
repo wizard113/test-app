@@ -63,7 +63,7 @@ jobs:
           # 빌드 서버 루트에서 프로덕션 의존성만 골라 deploy 폴더에 물리적 파일로 설치합니다.
           # (또는 안전하게 cp -r node_modules deploy/ 로 통째 복사해도 됩니다.)
           npm prune --production
-          cp -r node_modules deploy/
+          cp -r node_modules deploy/node_modules/
 
           echo "4. static 및 public 복사"
           mkdir -p deploy/.next
