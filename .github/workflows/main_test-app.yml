@@ -72,6 +72,19 @@ jobs:
           echo "===== deploy ====="
           find deploy
 
+      - name: Inspect standalone
+        run: |
+          echo "=== standalone ==="
+          ls -l .next/standalone
+          echo ""
+          echo "===== standalone/node_modules ====="
+          ls -ld .next/standalone/node_modules
+          ls -l .next/standalone/node_modules | head -20
+          echo "=== deploy ==="
+          ls -l deploy
+          echo "=== deploy/node_modules ==="
+          ls -l deploy/node_modules
+          ls -l .next/standalone/node_modules | head -20
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -88,6 +101,20 @@ jobs:
         with:
           name: node-app
           path: deploy
+
+      - name: Inspect downloaded artifact
+        run: |
+          pwd
+
+          echo "===== deploy ====="
+
+          ls -la deploy
+
+          echo "===== deploy/node_modules ====="
+
+          ls -ld deploy/node_modules
+
+          ls -l deploy/node_modules | head -2
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
@@ -95,13 +122,3 @@ jobs:
           slot-name: Production
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8238FDE204954D1B9EBB0A1EFF2452DB }}
           package: deploy
-      - name: Inspect standalone
-        run: |
-          echo "=== standalone ==="
-          ls -l .next/standalone
-          echo "=== standalone/node_modules ==="
-          ls -l .next/standalone/node_modules
-          echo "=== deploy ==="
-          ls -l deploy
-          echo "=== deploy/node_modules ==="
-          ls -l deploy/node_modules
