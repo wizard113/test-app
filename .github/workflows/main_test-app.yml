@@ -91,6 +91,7 @@ jobs:
           echo "===== deploy/node_modules ====="
           ls -ld deploy/node_modules
           ls -l deploy/node_modules | head -2
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         env:
@@ -99,4 +100,4 @@ jobs:
           app-name: test-app
           slot-name: Production
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8238FDE204954D1B9EBB0A1EFF2452DB }}
-          package: .
+          package: deploy
