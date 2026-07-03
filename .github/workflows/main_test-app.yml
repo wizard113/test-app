@@ -39,7 +39,7 @@ jobs:
 
             echo ""
             echo "Directory contents:"
-            ls -la
+            ls .next/standalone -la
 
       # server.js가 있는 standalone 폴더 찾기
       - name: Find standalone app
