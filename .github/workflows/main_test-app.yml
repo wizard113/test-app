@@ -64,7 +64,7 @@ jobs:
           if [ -d public ]; then
             cp -a public deploy/
           fi
-          ls deploy/ -la
+          ls deploy/.next -la
 
       # 확인용 (처음 한두 번만 사용)
       - name: Show deploy structure
