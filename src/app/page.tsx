@@ -16,7 +16,7 @@ export default function Home() {
           priority
         />
         <div className={styles.intro}>
-          <h1>Next github action 배포22</h1>
+          <h1>Next github action 배포-staging1</h1>
 
           <h1>secret: {secret}</h1>
           <h1>dburl: {DB_URL}</h1>

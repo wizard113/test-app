@@ -94,6 +94,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: test-app
-          slot-name: Production
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8238FDE204954D1B9EBB0A1EFF2452DB }}
+          slot-name: staging
+          publish-profile: ${{ secrets.APP_TEST_STAGING }}
           package: release.zip
